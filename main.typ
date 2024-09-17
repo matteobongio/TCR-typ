@@ -7,11 +7,11 @@
 #show: setup-lovelace
 
 #set page(
-  paper: "a4"
+  paper: "a4",
+  numbering: "1",
+  header: [TCR The minute his head is in view, hit it with the rock!]
 )
-#set page(numbering: "1")
 #counter(page).update(1)
-
 
 #codly(
   languages: (
@@ -21,15 +21,6 @@
       color: rgb("#2995df")
     ),
   )
-)
-#set page(
-  header: [
-    #grid(columns: (50%, 50%),
-        grid.cell( "Linear Algebra for Computer Science", ),
-        grid.cell( "Matteo Bongiovanni (S5560349)",align: right ),
-      )
-  Homework 4
-  ]
 )
 #set heading(numbering: "1.")
 #show outline.entry.where(
@@ -200,7 +191,6 @@ int main() {
 }
 ```
 
-=======
 == Trie
 
 ```cpp
