@@ -209,7 +209,7 @@ class TrieNode {
    TrieNode() {
       end_of_word = false;
       for (int i = 0; i < 26; i++) {
-         children[i] = NULL;
+         children[i] = nullptr;
       }
       letter = '\0';
    }
@@ -222,7 +222,7 @@ class Trie {
      str = lower(str);
       TrieNode *current = &root;
       for (size_t i = 0; i < str.size(); i++) {
-         if (current->children[str.at(i) - 'a'] == NULL) {
+         if (current->children[str.at(i) - 'a'] == nullptr) {
             current->children[str.at(i) - 'a'] = new TrieNode;
             current->children[str.at(i) - 'a']->letter = str.at(i);
          }
@@ -237,7 +237,7 @@ class Trie {
          if (current->children[str.at(i) - 'a']) {
             current = current->children[str.at(i) - 'a'];
          } else {
-            current = NULL;
+            current = nullptr;
             break;
          }
       }
