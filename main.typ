@@ -16,13 +16,25 @@
 #codly(
   languages: (
     cpp: (
-      name: " C++",
-      icon: text(font: "FiraCode Nerd Font", "\u{e61d}"),
-      color: rgb("#CE412B")
+      name: "C++",
+      icon: "", //text(font: "FiraCode Nerd Font", "\u{e61d}"),
+      color: rgb("#2995df")
     ),
   )
 )
 
+
+= Template
+
 ```cpp
-print
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using ld = long double;
+
+int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+}
 ```
+
