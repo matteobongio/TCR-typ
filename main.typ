@@ -200,6 +200,63 @@ int main() {
 }
 ```
 
+=======
+== Trie
+
+```cpp
+string lower(string s) {
+   string out = "";
+   for (char c : s) {
+      out += tolower(c);
+   }
+   return out;
+}
+class TrieNode {
+ public:
+   TrieNode *children[26];
+   bool end_of_word;
+   char letter;
+   TrieNode() {
+      end_of_word = false;
+      for (int i = 0; i < 26; i++) {
+         children[i] = NULL;
+      }
+      letter = '\0';
+   }
+};
+
+class Trie {
+ public:
+   TrieNode root;
+   void Insert(string str) {
+     str = lower(str);
+      TrieNode *current = &root;
+      for (size_t i = 0; i < str.size(); i++) {
+         if (current->children[str.at(i) - 'a'] == NULL) {
+            current->children[str.at(i) - 'a'] = new TrieNode;
+            current->children[str.at(i) - 'a']->letter = str.at(i);
+         }
+         current = current->children[str.at(i) - 'a'];
+      }
+      current->end_of_word = true;
+   }
+   TrieNode *Search(string str) {
+     str = lower(str);
+      TrieNode *current = &root;
+      for (size_t i = 0; i < str.size(); i++) {
+         if (current->children[str.at(i) - 'a']) {
+            current = current->children[str.at(i) - 'a'];
+         } else {
+            current = NULL;
+            break;
+         }
+      }
+      return current;
+   }
+};
+
+```
+
 = Libraries
 == BigInt
 
@@ -604,5 +661,5 @@ ostream &operator<<(ostream &out,const BigInt &a){
         cout << (short)a.digits[i];
     return cout;
 }
-
 ```
+
