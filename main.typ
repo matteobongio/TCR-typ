@@ -250,6 +250,7 @@ class Trie {
 = Libraries
 == BigInt
 
+#columns(2, gutter: 11pt)[
 ```cpp
 #include <bits/stdc++.h>
  
@@ -652,4 +653,4 @@ ostream &operator<<(ostream &out,const BigInt &a){
     return cout;
 }
 ```
-
+]
