@@ -47,6 +47,9 @@ using namespace std;
 using ll = long long;
 using ld = long double;
 #define FOR(a, c) for (int(a) = 0; (a) < (c); (a)++) 
+#define all(x) begin(x), end(x)
+typedef pair<int, int> pii;
+typedef vector<int> vi;
 #define FAST_IO                     \
   ios_base::sync_with_stdio(false); \
   cin.tie(0);                       \
@@ -71,7 +74,7 @@ ostream& operator<<( ostream& o, __int128 n ) {
 == GCD
 ```cpp
 template <typename T>
-inline T gcd(T a, T b) {
+T gcd(T a, T b) {
   if (b == 0) {
     return a;
   }
@@ -81,7 +84,7 @@ inline T gcd(T a, T b) {
 Iter
 ```cpp
 template <typename T>
-inline T gcd(T a, T b) {
+T gcd(T a, T b) {
   T result = min(a, b);
   while (result > 0) {
     if (a % result == 0 && b % result == 0) {
