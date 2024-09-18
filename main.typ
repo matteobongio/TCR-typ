@@ -209,12 +209,9 @@ int main() {
 ```cpp
 // Time Complexity: O(E log V)
 // Space Complexity: O(V + E)
-#include <bits/stdc++.h>
-using namespace std;
 #define int long long
 #define fi first
 #define se second
-
 typedef pair<int, int> ii;
 signed main() {
   ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
@@ -372,7 +369,7 @@ int main(){
   return 0;
 }
 ```
-
+= Data Srtuctures
 == Trie
 
 ```cpp
@@ -429,6 +426,22 @@ struct FenwickTree {		// use 1 based indices!!!
 };
 ```
 
+== Heap
+```cpp
+vector<int> v1 = { 20, 30, 40, 25, 15 };
+// Converting vector into a heap
+make_heap(v1.begin(), v1.end());
+// Displaying the maximum element of heap using front()
+cout << v1.front() << endl;
+// add element
+v1.push_back(1);
+push_heap(v1.begin(), v1.end());
+// remove element
+// using pop_heap() function to move the largest element to the end
+pop_heap(v1.begin(), v1.end());
+// actually removing the element from the heap using pop_back()
+v1.pop_back();
+```
 
 = Libraries
 == BigInt
