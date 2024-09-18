@@ -111,6 +111,98 @@ vector<int> getFactors(int n) {
 }
 ```
 
+== Complex Numbers
+
+```cpp
+constexpr double pi = 3.1415926535897932384626433; // or std::acos(-1)
+struct Complex { using T = Complex; double u,v;
+	Complex(double u=0, double v=0) : u{u}, v{v} {}
+	T operator+(T r) const { return {u+r.u, v+r.v}; }
+	T operator-(T r) const { return {u-r.u, v-r.v}; }
+	T operator*(T r) const { return {u*r.u - v*r.v, u*r.v + v*r.u}; }
+	T operator/(T r) const {
+		auto norm = r.u*r.u+r.v*r.v;
+		return {(u*r.u + v*r.v)/norm, (v*r.u - u*r.v)/norm};
+	}
+	T operator*(double r) const { return T{u*r, v*r}; }
+	T operator/(double r) const { return T{u/r, v/r}; }
+	T inv() const { return T{1,0}/ *this; }
+	T conj() const { return T{u, -v}; }
+	static T root(ll k){ return {cos(2*pi/k), sin(2*pi/k)}; }
+	bool zero() const { return max(abs(u), abs(v)) < 1e-6; }
+};
+```
+== Matrix
+
+```cpp
+#define REP(i, n) for(auto i = decltype(n)(0); i < (n); i++)
+using T = double;
+constexpr T EPS = 1e-8;
+template<int R, int C>
+using M = array<array<T,C>,R>;	// matrix
+template<int R, int C>
+T ReducedRowEchelonForm(M<R,C> &m, int rows) {	// return the determinant
+	int r = 0; T det = 1;							// MODIFIES the input
+	for(int c = 0; c < rows && r < rows; c++) {
+		int p = r;
+		for(int i=r+1; i<rows; i++) if(abs(m[i][c]) > abs(m[p][c])) p=i;
+		if(abs(m[p][c]) < EPS){	det = 0; continue; }
+		swap(m[p], m[r]);		det = -det;
+		T s = 1.0 / m[r][c], t;	det *= m[r][c];
+		REP(j,C) m[r][j] *= s;				// make leading term in row 1
+		REP(i,rows) if (i!=r){ t = m[i][c]; REP(j,C) m[i][j] -= t*m[r][j]; }
+		++r;
+	}
+	return det;
+}
+bool error, inconst;	// error => multiple or inconsistent
+template<int R,int C>	// Mx = a; M:R*R, v:R*C => x:R*C
+M<R,C> solve(const M<R,R> &m, const M<R,C> &a, int rows){
+	M<R,R+C> q;
+	REP(r,rows){
+		REP(c,rows) q[r][c] = m[r][c];
+		REP(c,C) q[r][R+c] = a[r][c];
+	}
+	ReducedRowEchelonForm<R,R+C>(q,rows);
+	M<R,C> sol; error = false, inconst = false; 
+	REP(c,C) for(auto j = rows-1; j >= 0; --j){
+		T t=0; bool allzero=true;
+		for(auto k = j+1; k < rows; ++k)
+			t += q[j][k]*sol[k][c], allzero &= abs(q[j][k]) < EPS;
+		if(abs(q[j][j]) < EPS)
+			error = true, inconst |= allzero && abs(q[j][R+c]) > EPS;
+		else sol[j][c] = (q[j][R+c] - t) / q[j][j]; // usually q[j][j]=1
+	}
+	return sol;
+}
+```
+
+= Sorting and Searching
+
+```cpp
+// Binary predicate
+int compare(const void* ap, const void* bp) {
+  // Typecasting
+  const int* a = (int*)ap;
+  const int* b = (int*)bp;
+  if (*a < *b)
+    return -1;
+  else if (*a > *b)
+    return 1;
+  else
+    return 0;
+}
+int main() {
+  vector<int> vec;
+  auto first = vec.begin();
+  auto last = vec.end();
+  sort(first last);
+  int key = 1;
+  bool isPresent = binary_search(first, last, key);
+  int* p1 = (int*)bsearch(&key, vec.data(), vec.size(), sizeof(int), compare)
+}
+```
+
 = Graph
 == Dijkstra
 
@@ -284,58 +376,59 @@ int main(){
 == Trie
 
 ```cpp
-string lower(string s) {
-  string out = "";
-  for (char c : s) {
-    out += tolower(c);
-  }
-  return out;
-}
-class TrieNode {
-  public:
-    TrieNode *children[26];
-    bool end_of_word;
-    char letter;
-    TrieNode() {
-      end_of_word = false;
-      for (int i = 0; i < 26; i++) {
-         children[i] = nullptr;
-      }
-      letter = '\0';
-    }
+const int ALPHABET_SIZE = 26;
+inline int mp(char c) { return c - 'a'; }
+struct Node {
+	Node* ch[ALPHABET_SIZE];
+	bool isleaf = false;
+	Node() {
+		for(int i = 0; i < ALPHABET_SIZE; ++i) ch[i] = nullptr;
+	}
+	void insert(string &s, int i = 0) {
+		if (i == s.length()) isleaf = true;
+		else {
+			int v = mp(s[i]);
+			if (ch[v] == nullptr)
+				ch[v] = new Node();
+			ch[v]->insert(s, i + 1);
+		}
+	}
+	bool contains(string &s, int i = 0) {
+		if (i == s.length()) return isleaf;
+		else {
+			int v = mp(s[i]);
+			if (ch[v] == nullptr) return false;
+			else return ch[v]->contains(s, i + 1);
+		}
+	}
+	void cleanup() {
+		for (int i = 0; i < ALPHABET_SIZE; ++i)
+			if (ch[i] != nullptr) {
+				ch[i]->cleanup();
+				delete ch[i];
+			}
+	}
 };
-
-class Trie {
-  public:
-    TrieNode root;
-    void Insert(string str) {
-      str = lower(str);
-      TrieNode *current = &root;
-      for (size_t i = 0; i < str.size(); i++) {
-        if (current->children[str.at(i) - 'a'] == nullptr) {
-          current->children[str.at(i) - 'a'] = new TrieNode;
-          current->children[str.at(i) - 'a']->letter = str.at(i);
-        }
-        current = current->children[str.at(i) - 'a'];
-      }
-      current->end_of_word = true;
-    }
-    TrieNode *Search(string str) {
-      str = lower(str);
-      TrieNode *current = &root;
-      for (size_t i = 0; i < str.size(); i++) {
-        if (current->children[str.at(i) - 'a']) {
-           current = current->children[str.at(i) - 'a'];
-        } else {
-           current = nullptr;
-           break;
-        }
-      }
-      return current;
-    }
-};
-
 ```
+
+== Fenwick
+```cpp
+template <class T>
+struct FenwickTree {		// use 1 based indices!!!
+	int n; vector<T> tree;
+	FenwickTree(int n) : n(n) { tree.assign(n + 1, 0); }
+	T query(int l, int r) { return query(r) - query(l - 1); }
+	T query(int r) {
+		T s = 0;
+		for(; r > 0; r -= (r & (-r))) s += tree[r];
+		return s;
+	}
+	void update(int i, T v) {
+		for(; i <= n; i += (i & (-i))) tree[i] += v;
+	}
+};
+```
+
 
 = Libraries
 == BigInt
