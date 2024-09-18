@@ -76,16 +76,16 @@ $
   sin(v + w) = sin(v) cos(w) + cos(v)sin(w)\
   cos(v + w) = cos(v)cos(w) + sin(v)sin(w)
 $
-Law of sines
+== Law of sines
 $
   sin(A) / a = sin(B)/b = sin(C)/c
 $
 
-Law of cosines
+== Law of cosines
 $
   a^2 = b^2 + c^2 - 2 b c cos(alpha)
 $
-Complex numbers
+== Complex numbers
 $
   r = sqrt(a^2 + b^2)\
   theta = arctan(b/a)\
@@ -95,6 +95,26 @@ $
   root(n, r) e^(i (frac(theta + 2 pi k, n)))
 $
 
+== Permutations
+$
+  n "elements of length" r\
+  "with repititions" n^r\
+  "without repititions" frac(n!, (n - r)!)\
+  "The number of distinguishable permutations that can be formed from a collection of"\ n "objects,"
+  " where object" o_i "appears" k_i "times is:"\
+  frac(n!,k_1! k_2! k_3! ...)
+$
+
+e.g. MISSISSIPPI: 1M 4I 4S 2P
+$ n = 1 + 4 + 4 + 2 = 11\ 11!/( 1!4!4!2! ) = 34 650 $
+
+== Combinations (order doesn t matter)
+
+$ ""_n C _r = frac(n!, r!(n - r)!) = vec(n, r)$
+
+with repetitions:
+
+$ ""_(n + r - 1)C_r $
 
 = Number Theory
 == GCD
@@ -490,6 +510,73 @@ l.push_front(0);
 l.push_back(4);
 l.unique();
 ```
+
+
+== Search Tree
+```cpp
+template <typename T> struct Node {
+   T data;
+   Node *left;
+   Node *right;
+};
+template <typename T> Node<T> *newNode(T data) {
+   Node<T> *n = new Node<T>;
+   n->data = data;
+   n->left = n->right = nullptr;
+   return n;
+}
+template <typename T> Node<T> *insertNode(Node<T> *root, int data) {
+   if (root == nullptr) {
+      return newNode(data);
+   }
+   if (data < root->data) {
+      root->left = insertNode(root->left, data);
+   } else if (data > root->data) {
+      root->right = insertNode(root->right, data);
+   }
+   return root;
+}
+template <typename T> Node<T> *searchNode(Node<T> *root, int key) {
+   if (root == nullptr || root->data == key) {
+      return root;
+   }
+   if (root->data < key) {
+      return searchNode(root->right, key);
+   }
+   return searchNode(root->left, key);
+}
+template <typename T> Node<T> *minValueNode(Node<T> *node) {
+   Node<T> *current = node;
+   while (current && current->left != nullptr) {
+      current = current->left;
+   }
+   return current;
+}
+template <typename T> Node<T> *deleteNode(Node<T> *root, int data) {
+   if (root == nullptr)
+      return root;
+   if (data < root->data) {
+      root->left = deleteNode(root->left, data);
+   } else if (data > root->data) {
+      root->right = deleteNode(root->right, data);
+   } else {
+      if (root->left == nullptr) {
+         Node<T> *temp = root->right;
+         delete root;
+         return temp;
+      } else if (root->right == nullptr) {
+         Node<T> *temp = root->left;
+         delete root;
+         return temp;
+      }
+      Node<T> *temp = minValueNode(root->right);
+      root->data = temp->data;
+      root->right = deleteNode(root->right, temp->data);
+   }
+   return root;
+}
+```
+
 
 = Libraries
 == BigInt
