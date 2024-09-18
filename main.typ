@@ -69,6 +69,32 @@ ostream& operator<<( ostream& o, __int128 n ) {
 	return o;
 }
 ```
+= Math
+
+$
+  x = frac(- b plus.minus sqrt(b^2 - 4 a c) , 2 a)\
+  sin(v + w) = sin(v) cos(w) + cos(v)sin(w)\
+  cos(v + w) = cos(v)cos(w) + sin(v)sin(w)
+$
+Law of sines
+$
+  sin(A) / a = sin(B)/b = sin(C)/c
+$
+
+Law of cosines
+$
+  a^2 = b^2 + c^2 - 2 b c cos(alpha)
+$
+Complex numbers
+$
+  r = sqrt(a^2 + b^2)\
+  theta = arctan(b/a)\
+  a = r cos theta\
+  b = r sin theta\
+  z^n = r^n (cos(n theta) + i sin(n theta) = r e^(i n theta))\
+  root(n, r) e^(i (frac(theta + 2 pi k, n)))
+$
+
 
 = Number Theory
 == GCD
