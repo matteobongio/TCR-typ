@@ -64,6 +64,20 @@ inline T gcd(T a, T b) {
   return gcd(b, a % b);
 }
 ```
+Iter
+```cpp
+template <typename T>
+inline T gcd(T a, T b) {
+  T result = min(a, b);
+  while (result > 0) {
+    if (a % result == 0 && b % result == 0) {
+        break;
+    }
+    result--;
+  }
+  return result;
+}
+```
 
 == Primes
 ```cpp
@@ -188,6 +202,47 @@ int main() {
 
         cout << mxInd << ' ' << mxVal << '\n';
     }
+}
+```
+
+== Breadth First Search
+
+```cpp
+void bfs(vector<vector<int>>& adj, int s, vector<bool>& visited) {
+  queue<int> q;
+  visited[s] = true;
+  q.push(s);
+  while (!q.empty()) {
+    int curr = q.front();
+    q.pop();
+    for (int x : adj[curr]) {
+      if (!visited[x]) {
+        visited[x] = true;
+        q.push(x);
+      }
+    }
+  }
+}
+void addEdge(vector<vector<int>>& adj, int u, int v) {
+  adj[u].push_back(v);
+  adj[v].push_back(u); // Undirected Graph
+}
+
+int main() {
+  // Number of vertices in the graph
+  int V = 5;
+  // Adjacency list representation of the graph
+  vector<vector<int>> adj(V);
+  addEdge(adj, 0, 1);
+  addEdge(adj, 0, 2);
+  addEdge(adj, 1, 3);
+  addEdge(adj, 1, 4);
+  addEdge(adj, 2, 4);
+  // Mark all the vertices as not visited
+  vector<bool> visited(V, false);
+  // Perform BFS traversal starting from vertex 0
+  bfs(adj, 0, visited);
+  return 0;
 }
 ```
 
