@@ -110,7 +110,7 @@ $ n = 1 + 4 + 4 + 2 = 11\ 11!/( 1!4!4!2! ) = 34 650 $
 
 == Combinations (order doesn t matter)
 
-$ ""_n C _r = frac(n!, r!(n - r)!) = vec(n, r)$
+$ ""_n C _r = frac(n!, r!(n - r)!) = vec(n, r) $
 
 with repetitions:
 
@@ -176,20 +176,20 @@ vector<int> getFactors(int n) {
 ```cpp
 constexpr double pi = 3.1415926535897932384626433; // or std::acos(-1)
 struct Complex { using T = Complex; double u,v;
-	Complex(double u=0, double v=0) : u{u}, v{v} {}
-	T operator+(T r) const { return {u+r.u, v+r.v}; }
-	T operator-(T r) const { return {u-r.u, v-r.v}; }
-	T operator*(T r) const { return {u*r.u - v*r.v, u*r.v + v*r.u}; }
-	T operator/(T r) const {
-		auto norm = r.u*r.u+r.v*r.v;
-		return {(u*r.u + v*r.v)/norm, (v*r.u - u*r.v)/norm};
-	}
-	T operator*(double r) const { return T{u*r, v*r}; }
-	T operator/(double r) const { return T{u/r, v/r}; }
-	T inv() const { return T{1,0}/ *this; }
-	T conj() const { return T{u, -v}; }
-	static T root(ll k){ return {cos(2*pi/k), sin(2*pi/k)}; }
-	bool zero() const { return max(abs(u), abs(v)) < 1e-6; }
+  Complex(double u=0, double v=0) : u{u}, v{v} {}
+  T operator+(T r) const { return {u+r.u, v+r.v}; }
+  T operator-(T r) const { return {u-r.u, v-r.v}; }
+  T operator*(T r) const { return {u*r.u - v*r.v, u*r.v + v*r.u}; }
+  T operator/(T r) const {
+    auto norm = r.u*r.u+r.v*r.v;
+    return {(u*r.u + v*r.v)/norm, (v*r.u - u*r.v)/norm};
+  }
+  T operator*(double r) const { return T{u*r, v*r}; }
+  T operator/(double r) const { return T{u/r, v/r}; }
+  T inv() const { return T{1,0}/ *this; }
+  T conj() const { return T{u, -v}; }
+  static T root(ll k){ return {cos(2*pi/k), sin(2*pi/k)}; }
+  bool zero() const { return max(abs(u), abs(v)) < 1e-6; }
 };
 ```
 == Matrix
@@ -202,38 +202,38 @@ template<int R, int C>
 using M = array<array<T,C>,R>;	// matrix
 template<int R, int C>
 T ReducedRowEchelonForm(M<R,C> &m, int rows) {	// return the determinant
-	int r = 0; T det = 1;							// MODIFIES the input
-	for(int c = 0; c < rows && r < rows; c++) {
-		int p = r;
-		for(int i=r+1; i<rows; i++) if(abs(m[i][c]) > abs(m[p][c])) p=i;
-		if(abs(m[p][c]) < EPS){	det = 0; continue; }
-		swap(m[p], m[r]);		det = -det;
-		T s = 1.0 / m[r][c], t;	det *= m[r][c];
-		REP(j,C) m[r][j] *= s;				// make leading term in row 1
-		REP(i,rows) if (i!=r){ t = m[i][c]; REP(j,C) m[i][j] -= t*m[r][j]; }
-		++r;
-	}
-	return det;
+  int r = 0; T det = 1;							// MODIFIES the input
+  for(int c = 0; c < rows && r < rows; c++) {
+    int p = r;
+    for(int i=r+1; i<rows; i++) if(abs(m[i][c]) > abs(m[p][c])) p=i;
+    if(abs(m[p][c]) < EPS){	det = 0; continue; }
+    swap(m[p], m[r]);		det = -det;
+    T s = 1.0 / m[r][c], t;	det *= m[r][c];
+    REP(j,C) m[r][j] *= s;				// make leading term in row 1
+    REP(i,rows) if (i!=r){ t = m[i][c]; REP(j,C) m[i][j] -= t*m[r][j]; }
+    ++r;
+  }
+  return det;
 }
 bool error, inconst;	// error => multiple or inconsistent
 template<int R,int C>	// Mx = a; M:R*R, v:R*C => x:R*C
 M<R,C> solve(const M<R,R> &m, const M<R,C> &a, int rows){
-	M<R,R+C> q;
-	REP(r,rows){
-		REP(c,rows) q[r][c] = m[r][c];
-		REP(c,C) q[r][R+c] = a[r][c];
-	}
-	ReducedRowEchelonForm<R,R+C>(q,rows);
-	M<R,C> sol; error = false, inconst = false; 
-	REP(c,C) for(auto j = rows-1; j >= 0; --j){
-		T t=0; bool allzero=true;
-		for(auto k = j+1; k < rows; ++k)
-			t += q[j][k]*sol[k][c], allzero &= abs(q[j][k]) < EPS;
-		if(abs(q[j][j]) < EPS)
-			error = true, inconst |= allzero && abs(q[j][R+c]) > EPS;
-		else sol[j][c] = (q[j][R+c] - t) / q[j][j]; // usually q[j][j]=1
-	}
-	return sol;
+  M<R,R+C> q;
+  REP(r,rows){
+    REP(c,rows) q[r][c] = m[r][c];
+    REP(c,C) q[r][R+c] = a[r][c];
+  }
+  ReducedRowEchelonForm<R,R+C>(q,rows);
+  M<R,C> sol; error = false, inconst = false; 
+  REP(c,C) for(auto j = rows-1; j >= 0; --j){
+    T t=0; bool allzero=true;
+    for(auto k = j+1; k < rows; ++k)
+      t += q[j][k]*sol[k][c], allzero &= abs(q[j][k]) < EPS;
+    if(abs(q[j][j]) < EPS)
+      error = true, inconst |= allzero && abs(q[j][R+c]) > EPS;
+    else sol[j][c] = (q[j][R+c] - t) / q[j][j]; // usually q[j][j]=1
+  }
+  return sol;
 }
 ```
 
