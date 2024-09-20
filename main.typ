@@ -16,9 +16,9 @@
 #set page(
   paper: "a4",
   numbering: "1",
-  flipped: true,
-  columns: 2,
-  margin: 3%,
+  // flipped: true,
+  // columns: 2,
+  // margin: 3%,
   header: [TCR The minute his head is in view, hit it with the rock!]
 )
 #counter(page).update(1)
