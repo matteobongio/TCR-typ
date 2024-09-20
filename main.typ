@@ -5,7 +5,14 @@
 
 #import "@preview/lovelace:0.2.0": *
 #show: setup-lovelace
-
+#let comment(body) = {
+  let centered-asterisk = "*" // "\u{2217}"
+  let s = "/" + centered-asterisk + " " + body + " " + centered-asterisk + "/"
+  let t = text(fill: gray.darken(30%),
+  font: "Source Code Pro",
+  s)
+  t
+}
 #set page(
   paper: "a4",
   numbering: "1",
@@ -46,16 +53,17 @@ Compilation Command
 using namespace std;
 using ll = long long;
 using ld = long double;
+using vi = vector<ll>;
+typedef pair<ll, ll> pii;
 #define FOR(a, c) for (int(a) = 0; (a) < (c); (a)++) 
 #define all(x) begin(x), end(x)
-typedef pair<int, int> pii;
-typedef vector<int> vi;
 #define FAST_IO                     \
   ios_base::sync_with_stdio(false); \
   cin.tie(0);                       \
   cout.tie(0);
 
 int main() {
+  // freopen("input.txt", "r", stdin); // redirect file to STDIN
 }
 ```
 128bit
@@ -69,6 +77,114 @@ ostream& operator<<( ostream& o, __int128 n ) {
 	return o;
 }
 ```
+
+== split str
+```cpp
+vector<string> split_str(string s, const char delim) {
+  vector<string> out;
+  istringstream ss(s);
+  string e;
+  while (getline(ss, e, delim)){
+    out.push_back(e);
+  }
+  return out;
+}
+```
+
+== Vectors
+```cpp
+// insert
+v.insert(v.begin() + index, value); // head or index | O(n)
+v.push_back(value);	                // tail | O(1) access
+auto v_head = v.front();            // head | O(1)
+auto v_index = v.at(index);         // index (or v[i]) | O(1)
+auto v_tail = v.back();	            // tail | O(1)
+// remove
+v.erase(v.begin() + index);         // head or index | O(n)
+v.pop_back();                       // tail | O(1)
+// clear - common to all data structures
+v.clear();                          // O(n)
+```
+
+== Lists
+```cpp
+list<int> l;
+int value = 1;
+int index = 1;
+// insert
+l.push_front(value);                // head | O(1)
+l.insert(l.begin(), index, value);  // index | O(n)
+l.push_back(value);                 // tail | O(1)
+// access
+auto v_head = l.front();            // head | O(1)
+auto v_value = *next(l.begin(), 1); // index | O(n)
+auto v_tail = l.back();             // tail | O(1)
+// remove
+auto pos = next(l.begin(),index);
+l.pop_front();                      // head | O(1)
+l.erase(pos);                       // index | O(1) + O(n)
+l.pop_back();                       // tail | O(1)
+
+list<int> l = {1,2,3};
+list<int> l2;
+l2.splice(l2.begin(), l);           // transfer elements between list
+l.remove(1);                        // remove an element by value
+l.unique();                         // remove duplicates
+l.merge(l2);                        // merge two sorted lists
+```
+
+== Pairs and tuples
+```cpp
+pair<int,int> p = {1,2};
+cout << p.first << ' ' << p.second << '\n';
+pair<int,int> p2 = {3,4};
+p.swap(p2);
+tuple<int,int,int> t = {1,2,3};
+cout << get<0>(t) << get<1>(t) << get<2>(t) << '\n';
+```
+
+== Map
+Map: $O log n$
+
+Unordered Map: $O 1$
+
+```cpp
+using pss = pair<string,string>;
+int main() {
+  map<string,string> m;
+  // unordered_map<string,string> m;
+  m.insert(pss("key", "value")); // insert
+  string value = m.at("key"); // access (or m["key"])
+  m.erase("key"); // remove
+  bool exists = (m.find("key") != m.end()); // find
+					    // iterate
+  for(auto &it: m) {
+    cout << it.first << ' ' << it.second;
+  }
+}
+```
+
+== Set
+Set: $O log n$
+
+Unordered Set: $O 1$
+```cpp
+int main() {
+  set<int> s;
+  // unordered_set<int> s;
+  int value = 1;
+  s.insert(value); // insert
+  s.erase(value); // remove
+  bool exists = (s.find(value) != s.end()); // find
+					    // iterate
+  for(auto &i: s) {
+    cout << i;
+  }
+  cout << '\n';
+}
+```
+
+
 = Math
 
 $
@@ -257,6 +373,8 @@ int main() {
   auto first = vec.begin();
   auto last = vec.end();
   sort(first last);
+  // reverse: sort(vec.rbegin(), vec.rend())
+  // sorting arrays: a[]; sort(a, a+n)
   int key = 1;
   bool isPresent = binary_search(first, last, key);
   int* p1 = (int*)bsearch(&key, vec.data(), vec.size(), sizeof(int), compare)
@@ -964,3 +1082,27 @@ ostream &operator<<(ostream &out,const BigInt &a){
   return cout;
 }
 ```
+
+
+#pagebreak()
+
+= Pseudo Code
+#pseudocode-list(
+   indentation-guide-stroke: .5pt + gray.darken(20%),
+)[
+  + *Dijkstra (G, v)*
+  - *input* connected weighted graph $G$ with node $v$
+  - *output* function $d$ yielding for every node the length of a shortest path to $v$
+  -  $S <- "nodes"(G)$ #comment[ initialize ToDo list ]
+  + *For All* {$u in "nodes"(G)$}
+    + $d[u] <-$ *if* $u = v$ *then* 0 *else* $infinity$
+    + #comment[initialize $d$]
+  + *While* $S$ is not empty
+    + $u <-$ node in $S$ such that $d[u]$ is minimal
+    + remove $u$ from $S$
+    + *For All* $z \in S$ with $(u, z) in "edges"(G)$
+      + $d[u] <- min(d[z], d[u] + "weight"[u][z])$
+  + *Return* d
+]
+
+
