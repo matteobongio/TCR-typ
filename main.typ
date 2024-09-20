@@ -1083,9 +1083,6 @@ ostream &operator<<(ostream &out,const BigInt &a){
 }
 ```
 
-
-#pagebreak()
-
 = Pseudo Code
 #pseudocode-list(
    indentation-guide-stroke: .5pt + gray.darken(20%),
