@@ -258,6 +258,15 @@ T gcd(T a, T b) {
 }
 ```
 
+== LCM
+
+$ a * b = gcd(a, b) * "lcm"(a, b) $
+```cpp
+T lcm(T a, Tb) {
+  return (a*b) / gcd(a, b);
+}
+```
+
 == Primes
 ```cpp
 bool isPrime(int n) {
