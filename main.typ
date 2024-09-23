@@ -281,7 +281,7 @@ bool isPrime(int n) {
   return true;
 }
 
-vector<int> getFactors(int n) {
+vector<int> primeFactorisation(int n) {
   vector<int> facts;
   for (int x = 2; x * x <= n; ++x) {
     while (n % x == 0) {
