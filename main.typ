@@ -57,6 +57,7 @@ using vi = vector<ll>;
 typedef pair<ll, ll> pii;
 #define FOR(a, c) for (int(a) = 0; (a) < (c); (a)++) 
 #define all(x) begin(x), end(x)
+#define allRev(x) rbegin(x), rend(x)
 #define FAST_IO                     \
   ios_base::sync_with_stdio(false); \
   cin.tie(0);                       \
