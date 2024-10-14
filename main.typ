@@ -390,7 +390,7 @@ int main() {
   vector<int> vec;
   auto first = vec.begin();
   auto last = vec.end();
-  sort(first last);
+  sort(first, last);
   // reverse: sort(vec.rbegin(), vec.rend())
   // sorting arrays: a[]; sort(a, a+n)
   int key = 1;
