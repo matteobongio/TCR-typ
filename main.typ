@@ -201,6 +201,7 @@ $
 $
   a^2 = b^2 + c^2 - 2 b c cos(alpha)
 $
+
 == Complex numbers
 $
   r = sqrt(a^2 + b^2)\
@@ -231,6 +232,14 @@ $ ""_n C _r = frac(n!, r!(n - r)!) = vec(n, r) $
 with repetitions:
 
 $ ""_(n + r - 1)C_r $
+
+== Sequences
+$
+  A_n = n/2(2a_1 + (n-1)d)
+$
+$
+  G_n = a_1(1-r^n)/(1-r)
+$
 
 = Number Theory
 == GCD
