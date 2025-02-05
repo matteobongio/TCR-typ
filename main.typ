@@ -403,6 +403,69 @@ int main() {
 }
 ```
 
+== KMP
+
+```cpp
+void computeLPSArray(string pattern, ll m, vi &LPS) {
+   ll length = 0;
+   LPS[0] = 0;
+   ll i = 1;
+   while (i < m) {
+      if (pattern[i] == pattern[length]) {
+         length++;
+         LPS[i] = length;
+         i++;
+      } else {
+         if (length != 0) {
+            length = LPS[length - 1];
+         } else {
+            LPS[i] = 0;
+            i++;
+         }
+      }
+   }
+}
+
+vi KMP(string pattern, string text) {
+   ll m = pattern.length();
+   ll n = text.length();
+   vi ans;
+   vi LPS(m);
+   computeLPSArray(pattern, m, LPS);
+   ll i = 0; // index for text
+   ll j = 0; // index for pattern
+   while (i < n) {
+      if (pattern[j] == text[i]) {
+         i++;
+         j++;
+      }
+      if (j == m) {
+         ans.push_back(i - j);
+         j = LPS[j - 1];
+      } else if (i < n && pattern[j] != text[i]) {
+         if (j != 0) {
+            j = LPS[j - 1];
+         } else {
+            i++;
+         }
+      }
+   }
+   return ans;
+}
+
+
+int main() {
+   string pattern;
+   string text;
+   vi find = KMP(pattern, text);
+   for (auto i : find) {
+     first = false;
+     cout << i;
+   }
+   cout << endl;
+}
+```
+
 = Graph
 == Dijkstra
 

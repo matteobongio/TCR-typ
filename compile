@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+TYPST_FONT_PATHS=(realpath ./fonts/) typst compile main.typ
