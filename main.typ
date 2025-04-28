@@ -1,6 +1,6 @@
 #import "@preview/showybox:2.0.1": showybox
 
-#import "@preview/codly:1.1.1": *
+#import "@preview/codly:1.3.0": *
 #show: codly-init.with()
 
 #import "@preview/lovelace:0.2.0": *
@@ -13,13 +13,14 @@
   s)
   t
 }
+#let teamname = [*0xD0D0CACA*]
 #set page(
   paper: "a4",
   numbering: "1",
   // flipped: true,
   // columns: 2,
   // margin: 3%,
-  header: [TCR The minute his head is in view, hit it with the rock!]
+  header: teamname
 )
 #counter(page).update(1)
 
